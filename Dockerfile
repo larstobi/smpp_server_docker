@@ -1,12 +1,4 @@
-FROM openjdk:8-jre-slim
-
-MAINTAINER komuW <komuw05@gmail.com>
-
-RUN apt -y autoremove && \
-    apt -y clean && \
-    rm -rf ~/.cache/* && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
-    rm -rf /var/lib/apt/lists/*
+FROM 489478819445.dkr.ecr.eu-west-1.amazonaws.com/amazoncorretto:8-alpine-jre
 
 COPY SMPPSim /app
 
@@ -18,4 +10,4 @@ EXPOSE 2775
 
 WORKDIR /app
 
-CMD ["/app/startsmppsim.sh"]
+CMD ["java", "-Djava.net.preferIPv4Stack=true", "-Djava.util.logging.config.file=conf/logging.properties",  "-jar", "smppsim.jar", "conf/smppsim.props"]
